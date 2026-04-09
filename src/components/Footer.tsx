@@ -1,4 +1,4 @@
-import { BookOpen, Heart } from 'lucide-react';
+import { BookOpen, Heart, Package } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -59,6 +59,16 @@ export default function Footer() {
             >
               <BookOpen size={18} />
               Documentation
+            </a>
+            <a
+              href="https://crates.io/crates/vizier"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm transition-colors hover:text-emerald-500"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              <Package size={18} />
+              Crates.io
             </a>
           </div>
         </div>
