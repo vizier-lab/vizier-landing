@@ -1,9 +1,17 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { Copy, Check, Terminal, BookOpen } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
+import { Copy, Check, Terminal, BookOpen, Download } from 'lucide-react';
 
 const installCommand = 'curl -fsSL https://get.vizier.rs | sh';
+const windowsInstallerUrl = '#'; // TODO: replace with actual release page URL
+
+type OsTab = 'linux-mac' | 'windows';
+
+function detectOs(): OsTab {
+  if (typeof navigator === 'undefined') return 'linux-mac';
+  return navigator.userAgent.toLowerCase().includes('win') ? 'windows' : 'linux-mac';
+}
 
 const quickstartSteps = [
   {
@@ -34,6 +42,12 @@ export default function Quickstart() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [copied, setCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState<OsTab>('linux-mac');
+
+  const os = detectOs();
+  useEffect(() => {
+    setActiveTab(os);
+  }, [os]);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -75,26 +89,70 @@ export default function Quickstart() {
           className="mb-16"
         >
           <div className="mx-auto">
-            <div className="flex items-center justify-between mb-3!">
-              <span
-                className="text-sm font-medium"
-                style={{ color: 'var(--text-secondary)' }}
-              >
-                Quick Install
-              </span>
-              <button
-                onClick={() => copyToClipboard(installCommand)}
-                className="flex items-center gap-1 text-sm transition-colors"
-                style={{ color: 'var(--accent-primary)' }}
-              >
-                {copied ? <Check size={14} /> : <Copy size={14} />}
-                {copied ? 'Copied!' : 'Copy'}
-              </button>
+            {/* OS Tabs */}
+            <div className="flex items-center gap-1 mb-3! p-1 rounded-lg w-fit"
+              style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}
+            >
+              {([
+                { id: 'linux-mac', label: 'Linux / macOS' },
+                { id: 'windows', label: 'Windows' },
+              ] as { id: OsTab; label: string }[]).map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className="px-4! py-1.5 rounded-md text-sm font-medium transition-all"
+                  style={
+                    activeTab === tab.id
+                      ? { backgroundColor: 'var(--accent-primary)', color: '#fff' }
+                      : { color: 'var(--text-secondary)' }
+                  }
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
-            <div className="code-block flex items-center gap-3">
-              <Terminal size={16} style={{ color: 'var(--accent-primary)' }} />
-              <code className="flex-1">{installCommand}</code>
-            </div>
+
+            {/* Linux / macOS */}
+            {activeTab === 'linux-mac' && (
+              <>
+                <div className="flex items-center justify-between mb-3!">
+                  <span
+                    className="text-sm font-medium"
+                    style={{ color: 'var(--text-secondary)' }}
+                  >
+                    Quick Install
+                  </span>
+                  <button
+                    onClick={() => copyToClipboard(installCommand)}
+                    className="flex items-center gap-1 text-sm transition-colors"
+                    style={{ color: 'var(--accent-primary)' }}
+                  >
+                    {copied ? <Check size={14} /> : <Copy size={14} />}
+                    {copied ? 'Copied!' : 'Copy'}
+                  </button>
+                </div>
+                <div className="code-block flex items-center gap-3">
+                  <Terminal size={16} style={{ color: 'var(--accent-primary)' }} />
+                  <code className="flex-1">{installCommand}</code>
+                </div>
+              </>
+            )}
+
+            {/* Windows */}
+            {activeTab === 'windows' && (
+              <div className="flex flex-col items-start gap-3 mb-3!">
+                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  Download the installer from the releases page and run it to install Vizier.
+                </p>
+                <a
+                  href={windowsInstallerUrl}
+                  className="btn btn-primary flex items-center gap-3"
+                >
+                  <Download size={16} />
+                  Windows Installer
+                </a>
+              </div>
+            )}
           </div>
         </motion.div>
 
