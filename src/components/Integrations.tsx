@@ -1,25 +1,27 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { FaDiscord, FaTelegram, FaGlobe, FaPlug, FaDesktop, FaTerminal, FaRoute } from 'react-icons/fa';
+import { SiOpenai, SiAnthropic, SiGooglegemini, SiOllama } from 'react-icons/si';
+import { GiSpermWhale } from 'react-icons/gi';
+import type { IconType } from 'react-icons';
 
-// LLM Provider logos/names (using text for now, can be replaced with actual logos)
-const llmProviders = [
-  { name: 'OpenAI', color: '#10A37F' },
-  { name: 'Anthropic', color: '#D4A574' },
-  { name: 'Google Gemini', color: '#4285F4' },
-  { name: 'DeepSeek', color: '#4F46E5' },
-  { name: 'OpenRouter', color: '#F59E0B' },
-  { name: 'Ollama', color: '#FF6B6B' },
+const llmProviders: { name: string; color: string; icon: IconType }[] = [
+  { name: 'OpenAI', color: '#10A37F', icon: SiOpenai },
+  { name: 'Anthropic', color: '#D4A574', icon: SiAnthropic },
+  { name: 'Google Gemini', color: '#4285F4', icon: SiGooglegemini },
+  { name: 'DeepSeek', color: '#4F46E5', icon: GiSpermWhale },
+  { name: 'OpenRouter', color: '#F59E0B', icon: FaRoute },
+  { name: 'Ollama', color: '#FF6B6B', icon: SiOllama },
 ];
 
-// Channel icons using Lucide names
-const channels = [
-  { name: 'Discord', icon: 'MessageCircle' },
-  { name: 'Telegram', icon: 'Send' },
-  { name: 'HTTP API', icon: 'Globe' },
-  { name: 'WebSocket', icon: 'Radio' },
-  { name: 'WebUI', icon: 'Layout' },
-  { name: 'TUI', icon: 'Terminal' },
+const channels: { name: string; icon: IconType }[] = [
+  { name: 'Discord', icon: FaDiscord },
+  { name: 'Telegram', icon: FaTelegram },
+  { name: 'HTTP API', icon: FaGlobe },
+  { name: 'WebSocket', icon: FaPlug },
+  { name: 'WebUI', icon: FaDesktop },
+  { name: 'TUI', icon: FaTerminal },
 ];
 
 export default function Integrations() {
@@ -74,10 +76,10 @@ export default function Integrations() {
                 className="card flex flex-col items-center justify-center p-6 text-center"
               >
                 <div
-                  className="w-12 h-12 rounded-xl mb-3 flex items-center justify-center text-white font-bold text-lg"
+                  className="w-12 h-12 rounded-xl mb-3! flex items-center justify-center text-white"
                   style={{ backgroundColor: provider.color }}
                 >
-                  {provider.name.charAt(0)}
+                  <provider.icon size={24} />
                 </div>
                 <span className="text-sm font-medium">{provider.name}</span>
               </motion.div>
@@ -165,13 +167,13 @@ export default function Integrations() {
                 className="card flex flex-col items-center justify-center p-6 text-center"
               >
                 <div
-                  className="w-12 h-12 rounded-xl mb-3 flex items-center justify-center"
+                  className="w-12 h-12 rounded-xl mb-3! flex items-center justify-center"
                   style={{
                     backgroundColor: 'var(--accent-light)',
                     color: 'var(--accent-primary)'
                   }}
                 >
-                  <ChannelIcon name={channel.icon} />
+                  <channel.icon size={24} />
                 </div>
                 <span className="text-sm font-medium">{channel.name}</span>
               </motion.div>
@@ -183,48 +185,3 @@ export default function Integrations() {
   );
 }
 
-// Helper component to render channel icons
-function ChannelIcon({ name }: { name: string }) {
-  const iconClass = "w-6 h-6";
-
-  switch (name) {
-    case 'MessageCircle':
-      return (
-        <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-      );
-    case 'Send':
-      return (
-        <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-        </svg>
-      );
-    case 'Globe':
-      return (
-        <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-        </svg>
-      );
-    case 'Radio':
-      return (
-        <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a5 5 0 010-7.07m7.072 0a5 5 0 010 7.07M13 12a1 1 0 11-2 0 1 1 0 012 0z" />
-        </svg>
-      );
-    case 'Layout':
-      return (
-        <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-        </svg>
-      );
-    case 'Terminal':
-      return (
-        <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-      );
-    default:
-      return null;
-  }
-}
