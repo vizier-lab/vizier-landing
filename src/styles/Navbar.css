@@ -1,0 +1,215 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  --scroll-opacity: 0;
+  background-color: rgba(248, 248, 245, calc(0.25 + 0.7 * var(--scroll-opacity)));
+  border-bottom-color: rgba(220, 218, 212, var(--scroll-opacity));
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.dark .navbar {
+  background-color: rgba(24, 24, 27, calc(0.25 + 0.7 * var(--scroll-opacity)));
+  border-bottom-color: rgba(39, 39, 42, var(--scroll-opacity));
+}
+
+.navbar-container {
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+/* Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  height: 40px;
+  width: auto;
+  transition: transform var(--transition-base);
+}
+
+.navbar-logo:hover {
+  transform: scale(1.05);
+}
+
+.navbar-logo-img {
+  height: 100%;
+  width: auto;
+  display: none;
+}
+
+.logo-light {
+  display: block;
+}
+
+.dark .logo-light {
+  display: none;
+}
+
+.dark .logo-dark {
+  display: block !important;
+}
+
+/* Desktop Navigation */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navbar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.navbar-link:hover {
+  color: var(--accent-primary);
+}
+
+.navbar-github {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--hover);
+  margin-left: 0.5rem;
+}
+
+.navbar-github:hover {
+  background: var(--accent-light);
+}
+
+/* Theme Toggle */
+.navbar-theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--hover);
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.navbar-theme-toggle:hover {
+  background: var(--accent-light);
+  color: var(--accent-primary);
+}
+
+.navbar-mobile-theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0.5rem;
+  transition: all var(--transition-fast);
+  border-radius: 6px;
+}
+
+.navbar-mobile-theme-toggle:hover {
+  color: var(--accent-primary);
+  background: var(--hover);
+}
+
+/* Mobile Menu Toggle */
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  padding: 8px;
+  border-radius: 8px;
+  transition: all var(--transition-base);
+}
+
+.navbar-toggle:hover {
+  background: var(--hover);
+}
+
+/* Mobile Navigation */
+.navbar-mobile {
+  display: none;
+  flex-direction: column;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid var(--border);
+  gap: 1rem;
+  animation: slideDown 200ms ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar-mobile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  padding: 0.5rem;
+}
+
+.navbar-mobile-link:hover {
+  color: var(--accent-primary);
+  background: var(--hover);
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar-menu {
+    display: none;
+  }
+
+  .navbar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar-mobile {
+    display: flex;
+  }
+
+  .navbar-container {
+    padding: 0 1rem;
+  }
+}

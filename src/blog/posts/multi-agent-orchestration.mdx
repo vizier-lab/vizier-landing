@@ -1,0 +1,165 @@
+---
+title: Multi-Agent Orchestration Patterns
+date: 2024-04-05
+author: Vizier Team
+description: Explore advanced patterns for coordinating multiple Vizier agents working together.
+---
+
+# Multi-Agent Orchestration Patterns
+
+One of Vizier's most powerful capabilities is coordinating multiple AI agents to work together. This guide explores common orchestration patterns and how to implement them.
+
+## The Problem
+
+As your AI systems grow more complex, you often need multiple specialized agents:
+
+- A **research agent** that gathers information
+- A **planning agent** that strategizes
+- An **execution agent** that takes action
+- An **evaluation agent** that monitors results
+
+Coordinating these agents seamlessly is crucial for building robust AI systems.
+
+## Agent Communication
+
+In Vizier, agents communicate through a message bus. Here's how to set it up:
+
+```rust
+use vizier::orchestration::MessageBus;
+
+let bus = MessageBus::new();
+let research_agent = Agent::new("researcher")
+    .with_bus(bus.clone())
+    .build();
+
+let planning_agent = Agent::new("planner")
+    .with_bus(bus.clone())
+    .build();
+```
+
+## Patterns
+
+### 1. Pipeline Pattern
+
+Process information through multiple agents sequentially:
+
+```rust
+async fn pipeline(input: &str) -> Result<String> {
+    let research = research_agent.run(input).await?;
+    let plan = planning_agent.run(&research).await?;
+    let result = execution_agent.run(&plan).await?;
+    Ok(result)
+}
+```
+
+### 2. Fan-Out/Fan-In Pattern
+
+Send tasks to multiple agents in parallel, then combine results:
+
+```rust
+async fn parallel_work(task: &str) -> Result<String> {
+    let (research, analysis) = tokio::join!(
+        research_agent.run(task),
+        analysis_agent.run(task)
+    );
+    
+    evaluation_agent.run(&format!("{}\n{}", research?, analysis?)).await
+}
+```
+
+### 3. Supervisor Pattern
+
+Have one agent delegate work to others:
+
+```rust
+let supervisor = Agent::new("supervisor")
+    .with_delegates(vec![
+        research_agent.clone(),
+        planning_agent.clone(),
+        execution_agent.clone()
+    ])
+    .build();
+
+supervisor.run("Solve this complex problem").await?;
+```
+
+## Memory Sharing
+
+Agents can share context through a common memory store:
+
+```rust
+let shared_memory = MemoryStore::new();
+
+let agent1 = Agent::new("agent1")
+    .with_memory(shared_memory.clone())
+    .build();
+
+let agent2 = Agent::new("agent2")
+    .with_memory(shared_memory.clone())
+    .build();
+```
+
+## Error Handling
+
+Multi-agent systems need robust error handling:
+
+```rust
+async fn orchestrated_task(input: &str) -> Result<String> {
+    match research_agent.run(input).await {
+        Ok(research) => {
+            match planning_agent.run(&research).await {
+                Ok(plan) => execution_agent.run(&plan).await,
+                Err(e) => {
+                    tracing::error!("Planning failed: {}", e);
+                    Err(e)
+                }
+            }
+        }
+        Err(e) => {
+            tracing::error!("Research failed: {}", e);
+            Err(e)
+        }
+    }
+}
+```
+
+## Best Practices
+
+1. **Keep agents focused**: Each agent should have a single responsibility
+2. **Use timeouts**: Prevent tasks from running indefinitely
+3. **Log interactions**: Track agent communication for debugging
+4. **Monitor performance**: Use metrics to understand agent efficiency
+5. **Test in isolation**: Test individual agents before orchestration
+
+## Real-World Example
+
+Here's a content creation system using three agents:
+
+```rust
+async fn create_blog_post(topic: &str) -> Result<String> {
+    // Research phase
+    let research = research_agent
+        .run(&format!("Research: {}", topic))
+        .await?;
+    
+    // Planning phase
+    let outline = planning_agent
+        .run(&format!("Create outline: {}", research))
+        .await?;
+    
+    // Writing phase
+    let post = execution_agent
+        .run(&format!("Write article: {}", outline))
+        .await?;
+    
+    Ok(post)
+}
+```
+
+## Learn More
+
+- [Agent API Reference](https://book.vizier.rs/api/agent.html)
+- [Message Bus Documentation](https://book.vizier.rs/orchestration/message-bus.html)
+- [Memory System Guide](https://book.vizier.rs/memory/overview.html)
+
+Multi-agent orchestration opens up incredible possibilities for building sophisticated AI systems. Start with simple patterns and gradually leverage more complex coordination strategies!

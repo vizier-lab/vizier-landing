@@ -1,21 +1,22 @@
-import Hero from './components/Hero'
-import Quickstart from './components/Quickstart'
-import Integrations from './components/Integrations'
-import Features from './components/Features'
-import Testimonials from './components/Testimonials'
-import Footer from './components/Footer'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Navbar } from './components/Navbar';
+import Home from './pages/Home';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 
 function App() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
-      <Hero />
-      <Quickstart />
-      <Integrations />
-      <Features />
-      <Testimonials />
-      <Footer />
-    </div>
-  )
+    <Router>
+      <div style={{ backgroundColor: 'var(--background)' }}>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;

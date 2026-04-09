@@ -1,0 +1,233 @@
+---
+title: Understanding Vizier's Memory Systems
+date: 2024-03-28
+author: Vizier Team
+description: Deep dive into short-term and long-term memory in Vizier agents.
+---
+
+# Understanding Vizier's Memory Systems
+
+Memory is what enables AI agents to learn, adapt, and maintain context over time. Vizier's dual-memory system combines short-term and long-term memory for intelligent, context-aware interactions.
+
+## Why Memory Matters
+
+Without memory, each interaction is isolated:
+- An agent can't remember past conversations
+- It can't learn from previous interactions
+- It can't maintain long-term goals or strategies
+
+With memory, agents become truly intelligent digital stewards.
+
+## Short-Term Memory
+
+Short-term memory keeps recent interactions in focus—perfect for handling ongoing conversations.
+
+### Characteristics
+
+- **Limited size**: Typically 10-100 recent messages
+- **Fast access**: Always available without computation
+- **Contextual**: Provides immediate context for current tasks
+- **Self-managed**: Automatically discards oldest entries when full
+
+### Usage Example
+
+```rust
+let agent = Agent::new("my-agent")
+    .with_short_term_memory(50) // Keep last 50 messages
+    .build();
+
+// Short-term memory is used automatically
+agent.run("Hello").await?;
+agent.run("Remember what I just said?").await?;
+```
+
+The agent now has both messages in its short-term memory for context.
+
+## Long-Term Memory
+
+Long-term memory stores important information persistently—ideal for remembering facts, preferences, and learnings over weeks or months.
+
+### Characteristics
+
+- **Unlimited growth**: Store as much as needed
+- **Retrieval-based**: Looked up when relevant
+- **Persistent**: Survives agent restarts
+- **Searchable**: Can query historical information
+
+### Usage Example
+
+```rust
+let agent = Agent::new("my-agent")
+    .with_long_term_memory("sqlite://memory.db")
+    .build();
+
+// Important facts get stored
+agent.store_memory("User prefers concise responses").await?;
+agent.store_memory("User timezone is EST").await?;
+
+// Long-term memory is retrieved when relevant
+agent.run("What time should we schedule?").await?;
+```
+
+## Memory Architecture
+
+```
+┌─────────────────────────────┐
+│     Current Interaction     │ ← What's happening now
+└──────────────┬──────────────┘
+               │
+        ┌──────▼─────────┐
+        │ Short-Term     │ ← Last 50 messages
+        │ Memory Buffer  │
+        └──────┬─────────┘
+               │
+        ┌──────▼─────────────┐
+        │ Long-Term Memory   │ ← All stored facts
+        │ (Search & Retrieve)│
+        └────────────────────┘
+```
+
+## Semantic Memory
+
+Beyond raw storage, Vizier uses semantic embeddings to find relevant memories:
+
+```rust
+// Facts are stored with semantic relationships
+agent.store_memory("Customer Alice likes technical details").await?;
+agent.store_memory("Customer Bob prefers simple explanations").await?;
+
+// Queries find semantically similar memories
+let memories = agent.query_memory("How does the user prefer information?").await?;
+// Returns the most relevant previous interactions
+```
+
+## Memory Best Practices
+
+### 1. Selective Storage
+
+Don't store everything—be selective:
+
+```rust
+// Good: Store decisions and preferences
+agent.store_memory("User decided to upgrade to Premium").await?;
+
+// Bad: Store every routine message
+// agent.store_memory("User asked about weather").await?;
+```
+
+### 2. Time-Based Expiry
+
+Set expiration for temporary preferences:
+
+```rust
+agent.store_memory_with_ttl(
+    "Temporary: In meeting mode",
+    Duration::hours(2)
+).await?;
+```
+
+### 3. Retrieval Timing
+
+Query long-term memory strategically:
+
+```rust
+// Before important decisions
+let relevant_memories = agent.query_memory("What are user preferences?").await?;
+
+// Not for every single message (too slow)
+```
+
+### 4. Privacy
+
+Manage sensitive data appropriately:
+
+```rust
+// Encrypt sensitive memories
+agent.store_memory_encrypted("Payment method: ...").await?;
+
+// Don't store unnecessary sensitive data
+```
+
+## Clearing Memory
+
+Sometimes you need a fresh start:
+
+```rust
+// Clear short-term memory only
+agent.clear_short_term_memory().await?;
+
+// Clear everything
+agent.clear_all_memory().await?;
+
+// Clear specific memories by tag
+agent.clear_memories_by_tag("temporary").await?;
+```
+
+## Monitoring Memory
+
+Check memory usage and health:
+
+```rust
+let stats = agent.memory_stats().await?;
+println!("Short-term: {} messages", stats.short_term_count);
+println!("Long-term: {} memories", stats.long_term_count);
+println!("Memory size: {} MB", stats.total_size_mb);
+```
+
+## Advanced: Custom Memory Handlers
+
+Implement custom memory behavior:
+
+```rust
+struct CustomMemory;
+
+impl MemoryHandler for CustomMemory {
+    async fn store(&self, content: String) -> Result<()> {
+        // Custom storage logic
+        Ok(())
+    }
+    
+    async fn retrieve(&self, query: &str) -> Result<Vec<String>> {
+        // Custom retrieval logic
+        Ok(vec![])
+    }
+}
+
+let agent = Agent::new("my-agent")
+    .with_custom_memory(Box::new(CustomMemory))
+    .build();
+```
+
+## Real-World Example
+
+A customer support agent that learns:
+
+```rust
+let agent = Agent::new("support-bot")
+    .with_short_term_memory(100)
+    .with_long_term_memory("sqlite://support.db")
+    .build();
+
+// First conversation
+agent.run("I'd like to upgrade my plan").await?;
+agent.store_memory("Customer expressed interest in Premium plan").await?;
+
+// Later conversation (same agent, could be days later)
+agent.run("Hey, can you help me?").await?;
+// Agent automatically retrieves: "Customer interested in Premium"
+// → More helpful context!
+```
+
+## Performance Implications
+
+- **Short-term memory**: ~100μs lookup, in-memory
+- **Long-term memory**: ~10-100ms lookup, database query
+- **Semantic search**: ~50-500ms depending on collection size
+
+Use strategically for best performance.
+
+## Conclusion
+
+Memory is what transforms agents from stateless chatbots into true digital stewards. Vizier's dual-memory system gives you the tools to build agents that remember, learn, and adapt over time.
+
+Start with short-term memory for immediate context, add long-term memory for important facts, and watch your agents become smarter with every interaction!

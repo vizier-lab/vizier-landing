@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import ThemeToggle from './ThemeToggle';
 import { FaGithub } from 'react-icons/fa';
 
 export default function Hero() {
@@ -18,11 +17,6 @@ export default function Hero() {
             background: 'radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%)',
           }}
         />
-      </div>
-
-      {/* Theme toggle */}
-      <div className="absolute top-6 right-6">
-        <ThemeToggle />
       </div>
 
       {/* Content */}
