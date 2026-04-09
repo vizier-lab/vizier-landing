@@ -36,12 +36,12 @@ export default function Hero() {
         >
           <div className="animate-float">
             <img
-              src="vizier-logo-light.svg"
+              src="/vizier-logo-light.svg"
               alt="Vizier Logo"
               className="w-24 h-24 sm:w-32 sm:h-32 mx-auto dark:hidden"
             />
             <img
-              src="vizier-logo-dark.svg"
+              src="/vizier-logo-dark.svg"
               alt="Vizier Logo"
               className="w-24 h-24 sm:w-32 sm:h-32 mx-auto hidden dark:block"
             />

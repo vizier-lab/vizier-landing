@@ -17,12 +17,12 @@ export default function Footer() {
           <div className="flex flex-col items-center md:items-start gap-2">
             <div className="flex items-center gap-3">
               <img
-                src="vizier-logo-light.svg"
+                src="/vizier-logo-light.svg"
                 alt="Vizier"
                 className="w-8 h-8 dark:hidden"
               />
               <img
-                src="vizier-logo-dark.svg"
+                src="/vizier-logo-dark.svg"
                 alt="Vizier"
                 className="w-8 h-8 hidden dark:block"
               />
