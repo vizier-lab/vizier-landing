@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
+import { VIZIER_VERSION } from 'virtual-vizier-version';
 
 export default function Hero() {
   const scrollToQuickstart = () => {
@@ -100,13 +101,13 @@ export default function Hero() {
           className="mt-8 flex justify-center gap-4 text-sm"
           style={{ color: 'var(--text-tertiary)' }}
         >
-          <span className="flex items-center gap-2">
-            <span
-              className="w-2 h-2 rounded-full animate-pulse"
-              style={{ backgroundColor: 'var(--accent-primary)' }}
-            />
-            v0.3.0-rc.3
-          </span>
+           <span className="flex items-center gap-2">
+             <span
+               className="w-2 h-2 rounded-full animate-pulse"
+               style={{ backgroundColor: 'var(--accent-primary)' }}
+             />
+             v{VIZIER_VERSION}
+           </span>
           <span>•</span>
           <span>MIT License</span>
         </motion.div>

@@ -1,48 +1,53 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
-import { Copy, Check, Terminal, BookOpen, Download } from 'lucide-react';
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { Copy, Check, Terminal, BookOpen, Download } from "lucide-react";
 
-const installCommand = 'curl -fsSL https://get.vizier.rs | sh';
-const windowsInstallerUrl = '#'; // TODO: replace with actual release page URL
+const installCommand = "curl -fsSL https://get.vizier.rs | sh";
+const windowsInstallerUrl = "#"; // TODO: replace with actual release page URL
 
-type OsTab = 'linux-mac' | 'windows';
+type OsTab = "linux-mac" | "windows";
 
 function detectOs(): OsTab {
-  if (typeof navigator === 'undefined') return 'linux-mac';
-  return navigator.userAgent.toLowerCase().includes('win') ? 'windows' : 'linux-mac';
+  if (typeof navigator === "undefined") return "linux-mac";
+  return navigator.userAgent.toLowerCase().includes("win")
+    ? "windows"
+    : "linux-mac";
 }
 
 const quickstartSteps = [
   {
-    number: '01',
-    title: 'Install Vizier',
-    description: 'Run the install script to download and install Vizier on your system.',
+    number: "01",
+    title: "Install Vizier",
+    description:
+      "Run the install script to download and install Vizier on your system.",
   },
   {
-    number: '02',
-    title: 'Initialize Workspace',
-    description: 'Generate configuration and create your first agent workspace.',
-    command: 'vizier init',
+    number: "02",
+    title: "Initialize Workspace",
+    description:
+      "Generate configuration and create your first agent workspace.",
+    command: "vizier init",
   },
   {
-    number: '03',
-    title: 'Run Your Agent',
-    description: 'Start the agent and begin interacting through your preferred channel.',
-    command: 'vizier run',
+    number: "03",
+    title: "Run Your Agent",
+    description:
+      "Start the agent and begin interacting through your preferred channel.",
+    command: "vizier run",
   },
 ];
 
 const alternativeInstalls = [
-  { label: 'Cargo Install', command: 'cargo install vizier' },
-  { label: 'Cargo Binstall', command: 'cargo binstall vizier' },
+  { label: "Cargo Install", command: "cargo install vizier" },
+  { label: "Cargo Binstall", command: "cargo binstall vizier" },
 ];
 
 export default function Quickstart() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<OsTab>('linux-mac');
+  const [activeTab, setActiveTab] = useState<OsTab>("linux-mac");
 
   const os = detectOs();
   useEffect(() => {
@@ -60,7 +65,7 @@ export default function Quickstart() {
       id="quickstart"
       ref={ref}
       className="py-24 px-4 sm:px-6 lg:px-8 flex justify-center items-center p-10! h-screen"
-      style={{ backgroundColor: 'var(--color-bg-secondary)' }}
+      style={{ backgroundColor: "var(--color-bg-secondary)" }}
     >
       <div className="mx-auto max-w-4xl flex-1 justify-center items-center p-10">
         {/* Section header */}
@@ -75,9 +80,10 @@ export default function Quickstart() {
           </h2>
           <p
             className="text-lg mx-auto"
-            style={{ color: 'var(--text-secondary)' }}
+            style={{ color: "var(--text-secondary)" }}
           >
-            One command to install, three steps to launch your personal AI steward.
+            One command to install, three steps to launch your personal AI
+            steward.
           </p>
         </motion.div>
 
@@ -90,21 +96,30 @@ export default function Quickstart() {
         >
           <div className="mx-auto">
             {/* OS Tabs */}
-            <div className="flex items-center gap-1 mb-3! p-1 rounded-lg w-fit"
-              style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}
+            <div
+              className="flex items-center gap-1 mb-3! p-1 rounded-lg w-fit"
+              style={{
+                backgroundColor: "var(--surface)",
+                border: "1px solid var(--border)",
+              }}
             >
-              {([
-                { id: 'linux-mac', label: 'Linux / macOS' },
-                { id: 'windows', label: 'Windows' },
-              ] as { id: OsTab; label: string }[]).map((tab) => (
+              {(
+                [
+                  { id: "linux-mac", label: "Linux / macOS" },
+                  { id: "windows", label: "Windows" },
+                ] as { id: OsTab; label: string }[]
+              ).map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className="px-4! py-1.5 rounded-md text-sm font-medium transition-all"
                   style={
                     activeTab === tab.id
-                      ? { backgroundColor: 'var(--accent-primary)', color: '#fff' }
-                      : { color: 'var(--text-secondary)' }
+                      ? {
+                        backgroundColor: "var(--accent-primary)",
+                        color: "#fff",
+                      }
+                      : { color: "var(--text-secondary)" }
                   }
                 >
                   {tab.label}
@@ -113,36 +128,43 @@ export default function Quickstart() {
             </div>
 
             {/* Linux / macOS */}
-            {activeTab === 'linux-mac' && (
+            {activeTab === "linux-mac" && (
               <>
                 <div className="flex items-center justify-between mb-3!">
                   <span
                     className="text-sm font-medium"
-                    style={{ color: 'var(--text-secondary)' }}
+                    style={{ color: "var(--text-secondary)" }}
                   >
                     Quick Install
                   </span>
                   <button
                     onClick={() => copyToClipboard(installCommand)}
                     className="flex items-center gap-1 text-sm transition-colors"
-                    style={{ color: 'var(--accent-primary)' }}
+                    style={{ color: "var(--accent-primary)" }}
                   >
                     {copied ? <Check size={14} /> : <Copy size={14} />}
-                    {copied ? 'Copied!' : 'Copy'}
+                    {copied ? "Copied!" : "Copy"}
                   </button>
                 </div>
                 <div className="code-block flex items-center gap-3">
-                  <Terminal size={16} style={{ color: 'var(--accent-primary)' }} />
+                  <Terminal
+                    size={16}
+                    style={{ color: "var(--accent-primary)" }}
+                  />
                   <code className="flex-1">{installCommand}</code>
                 </div>
               </>
             )}
 
             {/* Windows */}
-            {activeTab === 'windows' && (
+            {activeTab === "windows" && (
               <div className="flex flex-col items-start gap-3 mb-3!">
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Download the installer from the releases page and run it to install Vizier.
+                <p
+                  className="text-sm font-medium"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  Download the installer from the releases page and run it to
+                  install Vizier.
                 </p>
                 <a
                   href={windowsInstallerUrl}
@@ -175,16 +197,15 @@ export default function Quickstart() {
               <h3 className="text-xl font-semibold mb-2!">{step.title}</h3>
               <p
                 className="text-sm mb-4!"
-                style={{ color: 'var(--text-secondary)' }}
+                style={{ color: "var(--text-secondary)" }}
               >
                 {step.description}
               </p>
-              {step.command &&
+              {step.command && (
                 <div className="code-block text-xs">
                   <code>{step.command}</code>
                 </div>
-
-              }
+              )}
             </motion.div>
           ))}
         </div>
@@ -198,7 +219,7 @@ export default function Quickstart() {
         >
           <p
             className="text-sm mb-4!"
-            style={{ color: 'var(--text-tertiary)' }}
+            style={{ color: "var(--text-tertiary)" }}
           >
             Alternative installation methods
           </p>
@@ -208,9 +229,9 @@ export default function Quickstart() {
                 key={alt.label}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm"
                 style={{
-                  backgroundColor: 'var(--surface)',
-                  border: '1px solid var(--border)',
-                  color: 'var(--text-secondary)'
+                  backgroundColor: "var(--surface)",
+                  border: "1px solid var(--border)",
+                  color: "var(--text-secondary)",
                 }}
               >
                 <code>{alt.command}</code>
