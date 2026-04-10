@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { Copy, Check, Terminal, BookOpen, Download } from "lucide-react";
+import { VIZIER_VERSION } from "virtual-vizier-version";
 
 const installCommand = "curl -fsSL https://get.vizier.rs | sh";
-const windowsInstallerUrl = "#"; // TODO: replace with actual release page URL
 
 type OsTab = "linux-mac" | "windows";
 
@@ -167,8 +167,10 @@ export default function Quickstart() {
                   install Vizier.
                 </p>
                 <a
-                  href={windowsInstallerUrl}
+                  href={`https://github.com/vizier-lab/vizier/releases/download/v${VIZIER_VERSION}/vizier-${VIZIER_VERSION}-x86_64-installer.exe`}
                   className="btn btn-primary flex items-center gap-3"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <Download size={16} />
                   Windows Installer
