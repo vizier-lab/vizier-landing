@@ -27,7 +27,7 @@ const quickstartSteps = [
     title: "Initialize Workspace",
     description:
       "Generate configuration and create your first agent workspace.",
-    command: "vizier init",
+    command: "vizier onboard",
   },
   {
     number: "03",
@@ -64,7 +64,7 @@ export default function Quickstart() {
     <section
       id="quickstart"
       ref={ref}
-      className="py-24 px-4 sm:px-6 lg:px-8 flex justify-center items-center p-10! h-screen"
+      className="py-24 px-4 sm:px-6 lg:px-8 flex justify-center items-center p-10! min-h-screen"
       style={{ backgroundColor: "var(--color-bg-secondary)" }}
     >
       <div className="mx-auto max-w-4xl flex-1 justify-center items-center p-10">

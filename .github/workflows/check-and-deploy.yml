@@ -20,12 +20,14 @@ jobs:
       - name: Fetch latest Vizier version
         id: get-version
         run: |
+          # Use /releases (not /releases/latest) to include prerelease versions
+          # per_page=1 gets only the most recent release
           RESPONSE=$(curl -s \
             -H "Accept: application/vnd.github.v3+json" \
             -H "User-Agent: vizier-landing-check" \
-            https://api.github.com/repos/vizier-lab/vizier/releases/latest)
+            'https://api.github.com/repos/vizier-lab/vizier/releases?per_page=1')
           
-          VERSION=$(echo "$RESPONSE" | jq -r '.tag_name' | sed 's/^v//')
+          VERSION=$(echo "$RESPONSE" | head -1 | grep -o '"tag_name":"[^"]*"' | cut -d'"' -f4 | sed 's/^v//')
           
           if [ -z "$VERSION" ] || [ "$VERSION" = "null" ]; then
             echo "Failed to fetch version from GitHub API"

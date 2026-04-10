@@ -48,7 +48,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
-          className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4"
+          className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4!"
         >
           <span className="gradient-text">21st Century</span>
           <br />
@@ -60,7 +60,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
-          className="text-lg sm:text-xl mb-8 max-w-2xl mx-auto"
+          className="text-lg sm:text-xl mb-8! max-w-2xl mx-auto"
           style={{ color: 'var(--text-secondary)' }}
         >
           Your right-hand AI agent for multi-channel automation.
@@ -98,16 +98,16 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-8 flex justify-center gap-4 text-sm"
+          className="mt-8! flex justify-center gap-4 text-sm"
           style={{ color: 'var(--text-tertiary)' }}
         >
-           <span className="flex items-center gap-2">
-             <span
-               className="w-2 h-2 rounded-full animate-pulse"
-               style={{ backgroundColor: 'var(--accent-primary)' }}
-             />
-             v{VIZIER_VERSION}
-           </span>
+          <span className="flex items-center gap-2">
+            <span
+              className="w-2 h-2 rounded-full animate-pulse"
+              style={{ backgroundColor: 'var(--accent-primary)' }}
+            />
+            v{VIZIER_VERSION}
+          </span>
           <span>•</span>
           <span>MIT License</span>
         </motion.div>
