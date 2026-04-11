@@ -1,11 +1,13 @@
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import { FaGithub } from 'react-icons/fa';
-import { VIZIER_VERSION } from 'virtual-vizier-version';
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
+import { VIZIER_VERSION } from "virtual-vizier-version";
 
 export default function Hero() {
   const scrollToQuickstart = () => {
-    document.getElementById('quickstart')?.scrollIntoView({ behavior: 'smooth' });
+    document
+      .getElementById("quickstart")
+      ?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -15,7 +17,8 @@ export default function Hero() {
         <div
           className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full opacity-20"
           style={{
-            background: 'radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%)',
+            background:
+              "radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%)",
           }}
         />
       </div>
@@ -60,12 +63,13 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
-          className="text-lg sm:text-xl mb-8! max-w-2xl mx-auto"
-          style={{ color: 'var(--text-secondary)' }}
+          className="text-lg sm:text-xl mb-4! max-w-2xl mx-auto"
+          style={{ color: "var(--text-secondary)" }}
         >
           Your right-hand AI agent for multi-channel automation.
           <br className="hidden sm:block" />
-          Connect, automate, and orchestrate across Discord, Telegram, HTTP, and more.
+          Connect, automate, and orchestrate across Discord, Telegram, HTTP, and
+          more.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -98,13 +102,13 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-8! flex justify-center gap-4 text-sm"
-          style={{ color: 'var(--text-tertiary)' }}
+          className="mt-4! flex justify-center gap-4 text-sm"
+          style={{ color: "var(--text-tertiary)" }}
         >
           <span className="flex items-center gap-2">
             <span
               className="w-2 h-2 rounded-full animate-pulse"
-              style={{ backgroundColor: 'var(--accent-primary)' }}
+              style={{ backgroundColor: "var(--accent-primary)" }}
             />
             v{VIZIER_VERSION}
           </span>
@@ -124,16 +128,16 @@ export default function Hero() {
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="w-6 h-10 rounded-full border-2 flex justify-center pt-2"
-          style={{ borderColor: 'var(--border)' }}
+          style={{ borderColor: "var(--border)" }}
         >
           <motion.div
             animate={{ opacity: [0.3, 1, 0.3] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="w-1.5 h-1.5 rounded-full"
-            style={{ backgroundColor: 'var(--accent-primary)' }}
+            style={{ backgroundColor: "var(--accent-primary)" }}
           />
         </motion.div>
       </motion.div>
-    </section >
+    </section>
   );
 }
