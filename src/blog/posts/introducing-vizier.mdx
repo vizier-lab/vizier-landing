@@ -1,0 +1,74 @@
+---
+title: Introducing Vizier
+date: 2026-04-12
+author: Vizier Team
+description: Build your own digital steward. Today!
+---
+
+# About Vizier
+
+The name "Vizier" comes from ancient Egyptian and Persian courts, where a vizier was the chief minister to the king. Like a royal vizier, Vizier is your digital advisor that acts on your behalf.
+
+Vizier is a Rust-based AI agent orchestrator that lets you create multiple AI agents and integrate them with various capabilities—memory, tools, scheduling, and multi-channel communication (Discord, Telegram, HTTP, WebUI). Agents can be reactive (respond to user requests) or proactive (scheduled to act on their own). You define your agents' behavior and Vizier coordinates them to work together.
+
+## Building Your First Steward
+
+### Installation
+
+Get the latest version of Vizier by visiting our [homepage](https://vizier.rs).
+
+Alternatively, you can run the script below if you are on Linux or macOS:
+
+```sh
+curl -fsSL https://get.vizier.rs | sh
+```
+
+You can also install via Cargo if you have Rust installed:
+
+```sh
+# Build from source
+cargo install vizier
+
+# Or install prebuilt binary
+cargo binstall vizier
+```
+
+Confirm your installation:
+
+```sh
+vizier -V
+```
+
+### Initial Setup
+
+Create your first workspace and agent:
+
+```sh
+# Interactive setup
+vizier onboard
+
+# Non-interactive setup
+vizier init
+```
+
+This will generate the following in your workspace directory containing:
+
+- `.vizier/` - containing the internal state of vizier and your agents: storage, memory, etc.
+- `config.yaml` — your workspace configuration for credentials, storage, and integrations
+- `vizier.agent.md` — your default agent definition. Manage its behavior, capabilities, and interaction here
+
+To add more agents, use the `vizier agent new` command or create a new `<agent-name>.agent.md` file manually.
+
+### Getting to Know Your Vizier
+
+Once configured, we recommend chatting with your agent to set boundaries, define rules, and assign recurring tasks. You can do this through the built-in WebUI at `localhost:9999`.
+
+![internal tools](/vizier-chat.png)
+
+## Need Help?
+
+- [GitHub](https://github.com/vizier-lab/vizier)
+- [Documentation](https://book.vizier.rs)
+- [Email Us](mailto:hi+vizier@blinfoldking.dev)
+
+Happy building!

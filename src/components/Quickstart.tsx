@@ -166,6 +166,10 @@ export default function Quickstart() {
                   Download the installer from the releases page and run it to
                   install Vizier.
                 </p>
+                <div className="bg-yellow-950/50 border border-yellow-700/50 rounded-lg px-4! py-3! text-sm text-yellow-200 w-full">
+                  <p className="font-medium mb-1">Experimental Release</p>
+                  <p>The Windows version is experimental and may be unstable. If you encounter issues, please report them on GitHub.</p>
+                </div>
                 <a
                   href={`https://github.com/vizier-lab/vizier/releases/download/v${VIZIER_VERSION}/vizier-${VIZIER_VERSION}-x86_64-installer.exe`}
                   className="btn btn-primary flex items-center gap-3"
