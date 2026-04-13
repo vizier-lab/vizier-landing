@@ -7,6 +7,16 @@
     <meta name="description" content="Vizier - 21st Century Digital Steward. Your right-hand AI agent for multi-channel automation." />
     <meta name="theme-color" content="#10B981" />
     <title>Vizier - 21st Century Digital Steward</title>
+    <script>
+      // Handle SPA routing redirects from 404.html
+      (function() {
+        const redirect = sessionStorage.redirect;
+        if (redirect) {
+          delete sessionStorage.redirect;
+          window.location.href = redirect;
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
