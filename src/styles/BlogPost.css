@@ -154,6 +154,11 @@
   color: #6a9955;
 }
 
+pre {
+
+  background: #1e1e1e;
+}
+
 .dark .blog-post-content pre {
   background: #1e1e1e;
   border-color: #333;
