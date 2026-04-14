@@ -7,9 +7,9 @@
   <script>
     // GitHub Pages doesn't support SPA routing out of the box
     // This script redirects 404s back to index.html with the original path preserved
-    const path = window.location.pathname.slice(1).split('/').slice(0, -1).join('/');
-    sessionStorage.redirect = window.location.href;
-    window.location.href = window.location.origin + (path ? '/' + path : '/');
+    // const path = window.location.pathname.slice(1).split('/').slice(0, -1).join('/');
+    // sessionStorage.redirect = window.location.href;
+    // window.location.href = window.location.origin + (path ? '/' + path : '/');
   </script>
 </head>
 <body>
