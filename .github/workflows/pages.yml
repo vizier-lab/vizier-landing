@@ -30,7 +30,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Get Vizier version
+        id: version
+        run: |
+          version=$(curl -s https://api.github.com/repos/vizier-lab/vizier/releases/latest | grep '"tag_name"' | sed 's/.*: "\([^"]*\)".*/\1/' | sed 's/^v//')
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "Vizier version: $version"
+
       - name: Build
+        env:
+          NEXT_PUBLIC_VIZIER_VERSION: ${{ steps.version.outputs.version }}
         run: npm run build
 
       - name: Setup Pages
@@ -39,7 +48,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './out'
 
   deploy:
     environment:

@@ -1,47 +1,48 @@
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, BookOpen, Bug, Sun, Moon, Newspaper } from 'lucide-react';
-import { FaGithub } from 'react-icons/fa';
-import { useState, useEffect } from 'react';
-import '../styles/Navbar.css';
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Menu, X, BookOpen, Bug, Sun, Moon, Newspaper } from 'lucide-react'
+import { FaGithub } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
+import '../styles/Navbar.css'
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-  const [scrollOpacity, setScrollOpacity] = useState(0);
-  const location = useLocation();
-  const isHome = location.pathname === '/';
+  const [isOpen, setIsOpen] = useState(false)
+  const [isDark, setIsDark] = useState(false)
+  const [scrollOpacity, setScrollOpacity] = useState(0)
+  const pathname = usePathname()
+  const isHome = pathname === '/'
 
   useEffect(() => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setIsDark(prefersDark);
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    setIsDark(prefersDark)
     if (prefersDark) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add('dark')
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove('dark')
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
-      // Calculate opacity based on scroll position (0 to 1)
-      // Reaches full opacity after scrolling 100px
-      const scrolled = window.scrollY;
-      const opacity = Math.min(scrolled / 100, 1);
-      setScrollOpacity(opacity);
-    };
+      const scrolled = window.scrollY
+      const opacity = Math.min(scrolled / 100, 1)
+      setScrollOpacity(opacity)
+    }
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const toggleTheme = () => {
-    setIsDark(!isDark);
+    setIsDark(!isDark)
     if (!isDark) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add('dark')
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove('dark')
     }
-  };
+  }
 
   return (
     <nav
@@ -52,9 +53,8 @@ export function Navbar() {
       } as React.CSSProperties}
     >
       <div className="navbar-container">
-        {/* Logo - Hidden on home page */}
         {!isHome ? (
-          <Link to="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
+          <Link href="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
             <img
               src="/vizier-logo-light.svg"
               alt="Vizier"
@@ -68,9 +68,8 @@ export function Navbar() {
           </Link>
         ) : <div></div>}
 
-        {/* Desktop Navigation */}
         <div className="navbar-menu">
-          <Link to="/blog" className="navbar-link">
+          <Link href="/blog/" className="navbar-link">
             <Newspaper size={16} />
             Blog
           </Link>
@@ -110,7 +109,6 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Menu Toggle */}
         <button
           className="navbar-toggle"
           onClick={() => setIsOpen(!isOpen)}
@@ -120,11 +118,10 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Navigation */}
       {isOpen && (
         <div className="navbar-mobile">
           <Link
-            to="/blog"
+            href="/blog/"
             className="navbar-mobile-link"
             onClick={() => setIsOpen(false)}
           >
@@ -159,5 +156,5 @@ export function Navbar() {
         </div>
       )}
     </nav>
-  );
+  )
 }

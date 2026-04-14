@@ -1,33 +1,34 @@
-import { Link } from 'react-router-dom';
-import { Calendar, User } from 'lucide-react';
-import { getAllBlogPosts } from '../lib/blog';
-import '../styles/Blog.css';
+import Link from 'next/link'
+import { Calendar, User } from 'lucide-react'
+import { getAllBlogPosts } from '@/lib/blog'
+import '../../styles/Blog.css'
 
-function Blog() {
-  const posts = getAllBlogPosts();
+export const dynamic = 'force-static'
+export const revalidate = false
+
+export default function Blog() {
+  const posts = getAllBlogPosts()
 
   return (
     <div style={{ backgroundColor: 'var(--background)', minHeight: '100vh' }}>
       <div className="blog-container">
-        {/* Header */}
         <div className="blog-header">
           <h1>Blog</h1>
-          <p>Stories, updates, and insights about Vizier</p>
+          <p>Stories, updates, and insights about Vizier test</p>
         </div>
 
-        {/* Posts Grid */}
         {posts.length > 0 ? (
           <div className="blog-grid">
             {posts.map((post) => (
-              <Link 
-                key={post.slug} 
-                to={`/blog/${post.slug}`}
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}/`}
                 className="blog-card"
               >
                 <div className="blog-card-content">
                   <h2>{post.title}</h2>
                   <p className="blog-description">{post.description}</p>
-                  
+
                   <div className="blog-meta">
                     <div className="blog-meta-item">
                       <Calendar size={16} />
@@ -53,7 +54,5 @@ function Blog() {
         )}
       </div>
     </div>
-  );
+  )
 }
-
-export default Blog;

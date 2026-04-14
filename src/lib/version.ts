@@ -1,0 +1,1 @@
+export const VIZIER_VERSION = process.env.NEXT_PUBLIC_VIZIER_VERSION || 'latest'

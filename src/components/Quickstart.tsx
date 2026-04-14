@@ -1,8 +1,10 @@
+'use client'
+
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { Copy, Check, Terminal, BookOpen, Download } from "lucide-react";
-import { VIZIER_VERSION } from "virtual-vizier-version";
+import { VIZIER_VERSION } from "@/lib/version";
 
 const installCommand = "curl -fsSL https://get.vizier.rs | sh";
 

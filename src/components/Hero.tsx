@@ -1,7 +1,9 @@
+'use client'
+
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
-import { VIZIER_VERSION } from "virtual-vizier-version";
+import { VIZIER_VERSION } from "@/lib/version";
 
 export default function Hero() {
   const scrollToQuickstart = () => {
