@@ -2,20 +2,10 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import { Copy, Check, Terminal, BookOpen, Download } from "lucide-react";
-import { VIZIER_VERSION } from "@/lib/version";
+import { useRef, useState } from "react";
+import { Copy, Check, Terminal, BookOpen } from "lucide-react";
 
 const installCommand = "curl -fsSL https://get.vizier.rs | sh";
-
-type OsTab = "linux-mac" | "windows";
-
-function detectOs(): OsTab {
-  if (typeof navigator === "undefined") return "linux-mac";
-  return navigator.userAgent.toLowerCase().includes("win")
-    ? "windows"
-    : "linux-mac";
-}
 
 const quickstartSteps = [
   {
@@ -49,12 +39,6 @@ export default function Quickstart() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<OsTab>("linux-mac");
-
-  const os = detectOs();
-  useEffect(() => {
-    setActiveTab(os);
-  }, [os]);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -70,7 +54,6 @@ export default function Quickstart() {
       style={{ backgroundColor: "var(--color-bg-secondary)" }}
     >
       <div className="mx-auto max-w-4xl flex-1 justify-center items-center p-10">
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -89,7 +72,6 @@ export default function Quickstart() {
           </p>
         </motion.div>
 
-        {/* Main install command */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -97,96 +79,32 @@ export default function Quickstart() {
           className="mb-16"
         >
           <div className="mx-auto">
-            {/* OS Tabs */}
-            <div
-              className="flex items-center gap-1 mb-3! p-1 rounded-lg w-fit"
-              style={{
-                backgroundColor: "var(--surface)",
-                border: "1px solid var(--border)",
-              }}
-            >
-              {(
-                [
-                  { id: "linux-mac", label: "Linux / macOS" },
-                  { id: "windows", label: "Windows" },
-                ] as { id: OsTab; label: string }[]
-              ).map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className="px-4! py-1.5 rounded-md text-sm font-medium transition-all"
-                  style={
-                    activeTab === tab.id
-                      ? {
-                        backgroundColor: "var(--accent-primary)",
-                        color: "#fff",
-                      }
-                      : { color: "var(--text-secondary)" }
-                  }
-                >
-                  {tab.label}
-                </button>
-              ))}
+            <div className="flex items-center justify-between mb-3!">
+              <span
+                className="text-sm font-medium"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                Quick Install
+              </span>
+              <button
+                onClick={() => copyToClipboard(installCommand)}
+                className="flex items-center gap-1 text-sm transition-colors"
+                style={{ color: "var(--accent-primary)" }}
+              >
+                {copied ? <Check size={14} /> : <Copy size={14} />}
+                {copied ? "Copied!" : "Copy"}
+              </button>
             </div>
-
-            {/* Linux / macOS */}
-            {activeTab === "linux-mac" && (
-              <>
-                <div className="flex items-center justify-between mb-3!">
-                  <span
-                    className="text-sm font-medium"
-                    style={{ color: "var(--text-secondary)" }}
-                  >
-                    Quick Install
-                  </span>
-                  <button
-                    onClick={() => copyToClipboard(installCommand)}
-                    className="flex items-center gap-1 text-sm transition-colors"
-                    style={{ color: "var(--accent-primary)" }}
-                  >
-                    {copied ? <Check size={14} /> : <Copy size={14} />}
-                    {copied ? "Copied!" : "Copy"}
-                  </button>
-                </div>
-                <div className="code-block flex items-center gap-3">
-                  <Terminal
-                    size={16}
-                    style={{ color: "var(--accent-primary)" }}
-                  />
-                  <code className="flex-1">{installCommand}</code>
-                </div>
-              </>
-            )}
-
-            {/* Windows */}
-            {activeTab === "windows" && (
-              <div className="flex flex-col items-start gap-3 mb-3!">
-                <p
-                  className="text-sm font-medium"
-                  style={{ color: "var(--text-secondary)" }}
-                >
-                  Download the installer from the releases page and run it to
-                  install Vizier.
-                </p>
-                <div className="bg-yellow-950/50 border border-yellow-700/50 rounded-lg px-4! py-3! text-sm text-yellow-200 w-full">
-                  <p className="font-medium mb-1">Experimental Release</p>
-                  <p>The Windows version is experimental and may be unstable. If you encounter issues, please report them on GitHub.</p>
-                </div>
-                <a
-                  href={`https://github.com/vizier-lab/vizier/releases/download/v${VIZIER_VERSION}/vizier-${VIZIER_VERSION}-x86_64-installer.exe`}
-                  className="btn btn-primary flex items-center gap-3"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Download size={16} />
-                  Windows Installer
-                </a>
-              </div>
-            )}
+            <div className="code-block flex items-center gap-3">
+              <Terminal
+                size={16}
+                style={{ color: "var(--accent-primary)" }}
+              />
+              <code className="flex-1">{installCommand}</code>
+            </div>
           </div>
         </motion.div>
 
-        {/* Steps grid */}
         <div className="grid md:grid-cols-3 gap-6 mb-8! mt-8!">
           {quickstartSteps.map((step, index) => (
             <motion.div
@@ -218,7 +136,6 @@ export default function Quickstart() {
           ))}
         </div>
 
-        {/* Alternative installs */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -248,7 +165,6 @@ export default function Quickstart() {
           </div>
         </motion.div>
 
-        {/* Documentation link */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
